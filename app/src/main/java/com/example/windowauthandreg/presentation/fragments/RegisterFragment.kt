@@ -153,6 +153,7 @@ class RegisterFragment : Fragment() {
         Toast.makeText(requireContext(), "Регистрация успешна!", Toast.LENGTH_SHORT).show()
     }
 
+
     private fun showError(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
