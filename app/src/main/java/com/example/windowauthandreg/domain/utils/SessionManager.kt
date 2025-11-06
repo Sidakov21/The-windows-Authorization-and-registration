@@ -4,11 +4,12 @@ import android.provider.Settings
 import com.example.windowauthandreg.data.dao.SessionDao
 import com.example.windowauthandreg.data.entities.UserSessionEntity
 import com.example.windowauthandreg.presentation.activities.App
-import java.util.Date
+import java.util.*
 import java.util.Calendar
 import java.util.UUID
+import javax.inject.Inject
 
-class SessionManager(
+class SessionManager @Inject constructor(
     private val sessionDao: SessionDao
 ) {
     fun generateSessionToken(): String {
@@ -36,8 +37,8 @@ class SessionManager(
             sessionToken = generateSessionToken(),
             userId = userId,
             deviceId = getDeviceId(),
-            loginTime = loginTime as java.sql.Date,
-            expiryTime = expiryTime as java.sql.Date,
+            loginTime = loginTime, // Убрал приведение к java.sql.Date
+            expiryTime = expiryTime, // Убрал приведение к java.sql.Date
             isRememberMe = isRememberMe
         )
 
@@ -67,4 +68,3 @@ class SessionManager(
         )
     }
 }
-

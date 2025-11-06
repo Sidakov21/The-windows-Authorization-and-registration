@@ -52,7 +52,7 @@ object AppModule {
     @Provides
     @Singleton
     fun providePreferencesManager(@ApplicationContext context: Context): PreferencesManager {
-        return PreferencesManager(context)
+        return PreferencesManager(context) // Уберите @Inject из конструктора PreferencesManager или оставьте так
     }
 
     @Provides

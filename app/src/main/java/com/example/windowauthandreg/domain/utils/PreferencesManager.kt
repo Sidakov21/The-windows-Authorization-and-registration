@@ -9,10 +9,13 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 val Context.authDataStore: DataStore<Preferences> by preferencesDataStore(name = "auth_preferences")
 
-class PreferencesManager(context: Context) {
+class PreferencesManager  @Inject constructor(
+    private val context: Context
+) {
     private val dataStore = context.authDataStore
 
     private object PreferencesKeys {

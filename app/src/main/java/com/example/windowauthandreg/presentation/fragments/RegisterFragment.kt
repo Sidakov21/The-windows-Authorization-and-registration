@@ -14,10 +14,12 @@ import com.example.windowauthandreg.databinding.FragmentRegisterBinding
 import com.example.windowauthandreg.presentation.viewmodels.AuthState
 import com.example.windowauthandreg.presentation.viewmodels.AuthViewModel
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!

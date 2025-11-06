@@ -8,28 +8,15 @@ import com.example.windowauthandreg.domain.utils.PasswordStrength
 import com.example.windowauthandreg.domain.utils.PreferencesManager
 import com.example.windowauthandreg.domain.utils.SessionManager
 import java.util.Date
+import javax.inject.Inject
 
-class AuthRepositoryImpl : AuthRepository {
-
-    private val userDao: UserDao
-    private val sessionDao: SessionDao
-    private val passwordManager: PasswordManager
-    private val sessionManager: SessionManager
+class AuthRepositoryImpl @Inject constructor(
+    private val userDao: UserDao,
+    private val sessionDao: SessionDao,
+    private val passwordManager: PasswordManager,
+    private val sessionManager: SessionManager,
     private val preferencesManager: PreferencesManager
-
-    constructor(
-        userDao: UserDao,
-        sessionDao: SessionDao,
-        passwordManager: PasswordManager,
-        sessionManager: SessionManager,
-        preferencesManager: PreferencesManager
-    ) {
-        this.userDao = userDao
-        this.sessionDao = sessionDao
-        this.passwordManager = passwordManager
-        this.sessionManager = sessionManager
-        this.preferencesManager = preferencesManager
-    }
+) : AuthRepository {
 
     override suspend fun register(
         username: String,

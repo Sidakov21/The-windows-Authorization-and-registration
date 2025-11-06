@@ -1,11 +1,9 @@
 package com.example.windowauthandreg.presentation.fragments
 
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,6 +19,8 @@ import kotlinx.coroutines.launch
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+
+    // Используем обычный ViewModel без Hilt
     private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
@@ -46,14 +46,6 @@ class LoginFragment : Fragment() {
             fillDemoCredentials()
         }
 
-        binding.buttonTogglePassword.setOnClickListener {
-            togglePasswordVisibility(binding.editTextPassword)
-        }
-
-        binding.buttonRememberMe.setOnClickListener {
-            toggleRememberMe()
-        }
-
         binding.buttonGoToRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
@@ -72,13 +64,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun fillDemoCredentials() {
-        binding.editTextIdentifier.setText("demo_user")
-        binding.editTextPassword.setText("Demo123!")
+        binding.editTextIdentifier.setText("demo@example.com")
+        binding.editTextPassword.setText("12345678")
         binding.checkboxRememberMe.isChecked = true
-    }
 
-    private fun toggleRememberMe() {
-        binding.checkboxRememberMe.isChecked = !binding.checkboxRememberMe.isChecked
+        Toast.makeText(requireContext(), "Демо данные заполнены", Toast.LENGTH_SHORT).show()
     }
 
     private fun loginAsGuest() {
@@ -118,15 +108,8 @@ class LoginFragment : Fragment() {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
-    private fun togglePasswordVisibility(editText: EditText) {
-        val inputType = if (editText.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
-            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-        } else {
-            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-        }
-
-        editText.inputType = inputType
-        editText.setSelection(editText.text.length)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
-

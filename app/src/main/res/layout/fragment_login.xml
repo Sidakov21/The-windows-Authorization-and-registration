@@ -1,143 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="?attr/colorOnBackground">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <LinearLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login Fragment"
+        android:textSize="24sp"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Поле для идентификатора -->
+    <EditText
+        android:id="@+id/editTextIdentifier"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:hint="Email или имя пользователя"
+        android:layout_marginBottom="16dp" />
 
-        <!-- Заголовок -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Вход в систему"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="32dp"
-            android:textColor="?attr/colorOnBackground" />
+    <!-- Поле для пароля -->
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Пароль"
+        android:inputType="textPassword"
+        android:layout_marginBottom="16dp" />
 
-        <!-- Поле для email/username -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutIdentifier"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+    <!-- Чекбокс "Запомнить меня" -->
+    <CheckBox
+        android:id="@+id/checkboxRememberMe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Запомнить меня"
+        android:layout_marginBottom="24dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextIdentifier"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email или имя пользователя"
-                android:inputType="textEmailAddress"
-                android:maxLines="1" />
+    <!-- Основная кнопка входа -->
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Войти"
+        android:layout_marginBottom="16dp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <!-- Демо вход -->
+    <Button
+        android:id="@+id/buttonDemoLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Демо вход"
+        android:layout_marginBottom="8dp" />
 
-        <!-- Поле для пароля -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            app:endIconMode="password_toggle">
+    <!-- Гостевой вход -->
+    <Button
+        android:id="@+id/buttonGuestLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Войти как гость"
+        android:layout_marginBottom="16dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Пароль"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                tools:ignore="TouchTargetSizeCheck" />
+    <!-- Переход к регистрации -->
+    <TextView
+        android:id="@+id/buttonGoToRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Нет аккаунта? Зарегистрироваться"
+        android:textColor="#2196F3"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <!-- Прогресс бар -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
 
-        <!-- Запомнить меня -->
-        <CheckBox
-            android:id="@+id/checkboxRememberMe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Запомнить меня"
-            android:layout_marginBottom="24dp"
-            android:textColor="?attr/colorOnBackground" />
-
-        <!-- Основная кнопка входа -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Войти"
-            android:layout_marginBottom="16dp"
-            style="@style/Widget.Material3.Button"
-            app:cornerRadius="8dp" />
-
-        <!-- Демо вход -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonDemoLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Демо вход"
-            android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            app:cornerRadius="8dp" />
-
-        <!-- Кнопка переключения видимости пароля (если нужно дублировать встроенную функциональность) -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonTogglePassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="👁"
-            android:layout_marginBottom="16dp"
-            style="@style/Widget.Material3.Button.TextButton" />
-
-        <!-- Кнопка "Запомнить меня" (дублирует функциональность checkbox) -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonRememberMe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Запомнить"
-            android:layout_marginBottom="16dp"
-            style="@style/Widget.Material3.Button.OutlinedButton" />
-
-        <!-- Гостевой вход -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonGuestLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Войти как гость"
-            android:layout_marginBottom="24dp"
-            style="@style/Widget.Material3.Button.TextButton"
-            app:cornerRadius="8dp" />
-
-        <!-- Переход к регистрации -->
-        <TextView
-            android:id="@+id/buttonGoToRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:minHeight="48dp"
-            android:text="Нет аккаунта? Зарегистрироваться"
-            android:textColor="?attr/colorPrimary"
-            android:textStyle="bold" />
-
-        <!-- Прогресс бар -->
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:visibility="gone" />
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

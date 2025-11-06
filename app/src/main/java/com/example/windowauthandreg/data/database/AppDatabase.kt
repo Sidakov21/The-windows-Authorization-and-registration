@@ -1,7 +1,6 @@
 package com.example.windowauthandreg.data.database
 
 import android.content.Context
-import androidx.databinding.adapters.Converters
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -17,7 +16,7 @@ import com.example.windowauthandreg.data.entities.UserSessionEntity
     version = 1,
     exportSchema = true
 )
-@TypeConverters(Converters::class)
+@TypeConverters(com.example.windowauthandreg.data.database.Converters::class) // Исправленный import
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun sessionDao(): SessionDao

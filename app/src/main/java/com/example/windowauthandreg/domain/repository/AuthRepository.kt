@@ -1,6 +1,9 @@
 package com.example.windowauthandreg.domain.repository
 
 import com.example.windowauthandreg.data.entities.UserEntity
+import com.example.windowauthandreg.presentation.activities.App
+import com.google.android.gms.auth.api.Auth
+import javax.inject.Inject
 
 interface AuthRepository {
     suspend fun register(

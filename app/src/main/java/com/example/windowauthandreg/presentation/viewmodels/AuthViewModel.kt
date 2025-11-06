@@ -2,32 +2,33 @@ package com.example.windowauthandreg.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.windowauthandreg.data.entities.UserEntity
-import com.example.windowauthandreg.domain.repository.AuthRepository
-import com.example.windowauthandreg.domain.repository.AuthResult
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class AuthViewModel @Inject constructor(
-    private val authRepository: AuthRepository
-) : ViewModel() {
+class AuthViewModel : ViewModel() { // Убрали @HiltViewModel и зависимости
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Idle)
     val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
-    private val _currentUser = MutableStateFlow<UserEntity?>(null)
-    val currentUser: StateFlow<UserEntity?> = _currentUser.asStateFlow()
-
     private val _validationErrors = MutableStateFlow<Map<String, String>>(emptyMap())
     val validationErrors: StateFlow<Map<String, String>> = _validationErrors.asStateFlow()
 
-    init {
-        checkCurrentUser()
+    fun login(identifier: String, password: String, isRememberMe: Boolean = false) {
+        viewModelScope.launch {
+            _authState.value = AuthState.Loading
+
+            // Имитация задержки сети
+            kotlinx.coroutines.delay(1500)
+
+            // Простая логика для демонстрации
+            if (identifier.isNotBlank() && password == "12345678") {
+                _authState.value = AuthState.LoginSuccess
+            } else {
+                _authState.value = AuthState.Error("Неверные учетные данные")
+            }
+        }
     }
 
     fun register(
@@ -42,6 +43,9 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             _authState.value = AuthState.Loading
 
+            // Имитация задержки сети
+            kotlinx.coroutines.delay(1500)
+
             val errors = validateRegistration(
                 username, email, password, confirmPassword, firstName, lastName
             )
@@ -52,62 +56,13 @@ class AuthViewModel @Inject constructor(
                 return@launch
             }
 
-            when (val result = authRepository.register(
-                username, email, password, firstName, lastName, phoneNumber
-            )) {
-                is AuthResult.Success -> {
-                    _authState.value = AuthState.RegistrationSuccess
-                    _validationErrors.value = emptyMap()
-                }
-                is AuthResult.Error -> {
-                    _authState.value = AuthState.Error(result.message)
-                }
-            }
-        }
-    }
-
-    fun login(identifier: String, password: String, isRememberMe: Boolean = false) {
-        viewModelScope.launch {
-            _authState.value = AuthState.Loading
-
-            val errors = validateLogin(identifier, password)
-            if (errors.isNotEmpty()) {
-                _validationErrors.value = errors
-                _authState.value = AuthState.Error("Пожалуйста, исправьте ошибки валидации")
-                return@launch
-            }
-
-            when (val result = authRepository.login(identifier, password, isRememberMe)) {
-                is AuthResult.Success -> {
-                    _authState.value = AuthState.LoginSuccess
-                    _validationErrors.value = emptyMap()
-                    loadCurrentUser()
-                }
-                is AuthResult.Error -> {
-                    _authState.value = AuthState.Error(result.message)
-                }
-            }
+            _authState.value = AuthState.RegistrationSuccess
+            _validationErrors.value = emptyMap()
         }
     }
 
     fun logout() {
-        viewModelScope.launch {
-            authRepository.logout()
-            _authState.value = AuthState.LoggedOut
-            _currentUser.value = null
-        }
-    }
-
-    private fun checkCurrentUser() {
-        viewModelScope.launch {
-            if (authRepository.isUserLoggedIn()) {
-                loadCurrentUser()
-            }
-        }
-    }
-
-    private suspend fun loadCurrentUser() {
-        _currentUser.value = authRepository.getCurrentUser()
+        _authState.value = AuthState.LoggedOut
     }
 
     private fun validateRegistration(
@@ -146,20 +101,6 @@ class AuthViewModel @Inject constructor(
 
         return errors
     }
-
-    private fun validateLogin(identifier: String, password: String): Map<String, String> {
-        val errors = mutableMapOf<String, String>()
-
-        if (identifier.isBlank()) {
-            errors["identifier"] = "Введите email или имя пользователя"
-        }
-
-        if (password.isBlank()) {
-            errors["password"] = "Введите пароль"
-        }
-
-        return errors
-    }
 }
 
 sealed class AuthState {
@@ -170,4 +111,3 @@ sealed class AuthState {
     object LoggedOut : AuthState()
     data class Error(val message: String) : AuthState()
 }
-
